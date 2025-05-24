@@ -3,17 +3,17 @@
 
 
 # Overview
-The Cloud-Based Task Manager is a web application designed to streamline team task management. Built using the MERN stack (MongoDB, Express.js, React, and Node.js), this platform provides a user-friendly interface for efficient task assignment, tracking, and collaboration. The application caters to administrators and regular users, offering comprehensive features to enhance productivity and organization.
-
+# Overview
+WorkHub is a platform designed to streamline task management and enhance team collaboration. The system allows managers and employees to easily assign, track, and update tasks, providing a clear picture of progress and workload distribution. Whether you are managing a small team or a large organization, WorkHub helps maintain order and ensures that projects move forward smoothly.
 
 
 ### Why/Problem?
-In a dynamic work environment, effective task management is crucial for team success. Traditional methods of task tracking through spreadsheets or manual systems can be cumbersome and prone to errors. The Cloud-Based Task Manager aims to address these challenges by providing a centralized platform for task management, enabling seamless collaboration and improved workflow efficiency.
+In a dynamic work environment, effective task management is crucial for team success. Traditional methods of task tracking through spreadsheets or manual systems can be cumbersome and prone to errors. The WorkHub aims to address these challenges by providing a centralized platform for task management, enabling seamless collaboration and improved workflow efficiency.
 
 
 
 ### **Background**:
-With the rise of remote work and dispersed teams, there is a growing need for tools that facilitate effective communication and task coordination. The Cloud-Based Task Manager addresses this need by leveraging modern web technologies to create an intuitive and responsive task management solution. The MERN stack ensures scalability, while the integration of Redux Toolkit, Headless UI, and Tailwind CSS enhances user experience and performance.
+With the rise of remote work and dispersed teams, there is a growing need for tools that facilitate effective communication and task coordination. The WorkHub addresses this need by leveraging modern web technologies to create an intuitive and responsive task management solution. The MERN stack ensures scalability, while the integration of Redux Toolkit, Headless UI, and Tailwind CSS enhances user experience and performance.
 
 
 ### 
