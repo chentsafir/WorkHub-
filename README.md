@@ -138,7 +138,7 @@ If configured correctly, you should see a message indicating that the server is 
 ## Environment variables
 First, create the environment variables file `.env` in the client folder. The `.env` file contains the following environment variables:
 
-- VITE_APP_BASE_URL = `http://localhost:8800` #Note: Change the port 8800 to your port number.
+- VITE_APP_BASE_URL = `http://localhost:3001` #Note: Change the port 3001 to your port number.
 - VITE_APP_FIREBASE_API_KEY = `Firebase api key`
 
 ## Steps to run client

@@ -28,6 +28,7 @@ export const postApiSlice = apiSlice.injectEndpoints({
         body: data,
         credentials: "include",
       }),
+      invalidatesTags: ['UserTaskStatus'],// <-- add this
     }),
 
     getAllTask: builder.query({

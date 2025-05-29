@@ -26,6 +26,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: ['UserTaskStatus'],// <-- add this
     }),
 
     getNotifications: builder.query({
