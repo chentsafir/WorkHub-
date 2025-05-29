@@ -150,7 +150,7 @@ const Activities = ({ activity, id, refetch }) => {
         <div className='w-full space-y-0'>
           {activity?.map((item, index) => (
             <Card
-              key={item.id}
+              key={index}
               item={item}
               isConnected={index < activity?.length - 1}
             />

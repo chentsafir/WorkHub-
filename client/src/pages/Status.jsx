@@ -25,6 +25,7 @@ const StatusPage = () => {
 
   const TableRow = ({ user }) => {
     const counts = countTasksByStage(user?.tasks);
+    const totalTasks = user?.tasks?.length || 1; // Avoid division by zero
 
     return (
       <tr className='border-b border-gray-200 text-gray-600 hover:bg-gray-400/10'>
@@ -43,13 +44,13 @@ const StatusPage = () => {
           {
             <div className='flex items-center gap-2 text-white text-sm'>
               <p className='px-2 py-1 bg-blue-600 rounded'>
-                {(counts.inProgress * 100).toFixed(1)}%
+                {((counts.inProgress / totalTasks) * 100).toFixed(1)}%
               </p>
               <p className='px-2 py-1 bg-amber-600 rounded'>
-                {(counts.todo * 100).toFixed(1)}%
+                {((counts.todo / totalTasks) * 100).toFixed(1)}%
               </p>
               <p className='px-2 py-1 bg-emerald-600 rounded'>
-                {(counts.completed * 100).toFixed(1)}%
+                {((counts.completed / totalTasks) * 100).toFixed(1)}%
               </p>
             </div>
           }
