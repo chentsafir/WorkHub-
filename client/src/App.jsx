@@ -13,6 +13,7 @@ import {
   Trash,
   Users,
   StatusPage,
+  Register,
 } from "./pages";
 import { setOpenSidebar } from "./redux/slices/authSlice";
 
@@ -111,6 +112,7 @@ const App = () => {
           </Route>
 
           <Route path='/log-in' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </div>
 

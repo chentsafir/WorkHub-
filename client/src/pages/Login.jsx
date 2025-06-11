@@ -96,12 +96,29 @@ const Login = () => {
             {isLoading ? (
               <Loading />
             ) : (
-              <Button
-                type='submit'
-                label='Log in'
-                className='w-full h-10 bg-blue-700 text-white rounded-full'
-              />
+              <div className="flex flex-col gap-4">
+                <Button
+                  type='submit'
+                  label='Log in'
+                  className='w-full h-10 bg-blue-700 text-white rounded-full'
+                />
+                <Button
+                  type='button'
+                  label='Register'
+                  onClick={() => navigate("/register")}
+                  className='w-full h-10 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300'
+                />
+              </div>
             )}
+            <p className='text-center text-sm text-gray-600'>
+              Don't have an account?{" "}
+              <span
+                onClick={() => navigate("/register")}
+                className='text-blue-600 hover:underline cursor-pointer'
+              >
+                Register
+              </span>
+            </p>
           </form>
         </div>
       </div>
