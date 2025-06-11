@@ -34,9 +34,34 @@ const AddUser = ({ open, setOpen, userData }) => {
       } else {
         const res = await addNewUser({
           ...data,
-          password: data?.email,
+          isAdmin: false,
         }).unwrap();
-        toast.success("New User added successfully");
+        
+        // Show custom toast with credentials
+        toast.custom((t) => (
+          <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <h3 className="font-bold text-gray-900 dark:text-white mb-2">New User Created Successfully!</h3>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  <p className="mb-1">Login credentials:</p>
+                  <p className="font-medium">Email: {res.email}</p>
+                  <p className="font-medium">Password: {res.generatedPassword}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => toast.dismiss(t)}
+                className="ml-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        ), {
+          duration: Infinity, // Toast will stay until manually closed
+        });
       }
 
       setTimeout(() => {

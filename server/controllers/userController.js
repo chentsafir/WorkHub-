@@ -39,7 +39,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // POST - Register a new user
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, isAdmin, role, title } = req.body;
+  const { name, email, isAdmin, role, title } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -49,10 +49,13 @@ const registerUser = asyncHandler(async (req, res) => {
       .json({ status: false, message: "Email address already exists" });
   }
 
+  // Generate random 5-digit password
+  const generatedPassword = Math.floor(10000 + Math.random() * 90000).toString();
+
   const user = await User.create({
     name,
     email,
-    password,
+    password: generatedPassword,
     isAdmin,
     role,
     title,
@@ -63,7 +66,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
     user.password = undefined;
 
-    res.status(201).json(user);
+    res.status(201).json({
+      ...user.toObject(),
+      generatedPassword,
+      message: "User created successfully. Please save the generated password."
+    });
   } else {
     return res
       .status(400)
