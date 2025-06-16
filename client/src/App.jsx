@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { Navbar, Sidebar } from "./components";
+import DarkModeToggle from "./components/DarkModeToggle";
 import {
   Dashboard,
   Login,
@@ -114,6 +115,7 @@ const App = () => {
           <Route path='/log-in' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>
+        <DarkModeToggle />
       </div>
 
       <Toaster richColors position='top-center' />
