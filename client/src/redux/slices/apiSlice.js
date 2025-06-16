@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const API_URL = import.meta.env.VITE_APP_BASE_URL + "/api";
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://workhub-1-vf3r.onrender.com/api";
 
 const baseQuery = fetchBaseQuery({ baseUrl: API_URL });
 
