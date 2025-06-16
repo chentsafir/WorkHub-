@@ -17,7 +17,12 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://mern-task-manager-app.netlify.app", "http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "https://mern-task-manager-app.netlify.app",
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://elegant-haupia-819af1.netlify.app"
+    ],
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
