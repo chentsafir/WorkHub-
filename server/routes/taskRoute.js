@@ -17,6 +17,14 @@ import { isAdminRoute, protectRoute } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+
+/**
+ * This file sets up all the API routes for handling tasks.
+ * It connects different URLs to the functions that create, get,
+ * update, or delete tasks, and protects them so only the
+ * right users can access them.
+ */
+
 router.post("/create", protectRoute, isAdminRoute, createTask);
 router.post("/duplicate/:id", protectRoute, isAdminRoute, duplicateTask);
 router.post("/activity/:id", protectRoute, postTaskActivity);

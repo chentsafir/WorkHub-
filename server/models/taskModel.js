@@ -1,5 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
+
+/**
+ * Defines the schema for a Task in the database.
+ * This structure holds all information related to a single task,
+ * including its status, priority, activities, sub-tasks, and assigned users.
+ */
+
 const taskSchema = new Schema(
   {
     title: { type: String, required: true },

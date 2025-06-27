@@ -103,6 +103,8 @@ const logoutUser = (req, res) => {
 //   }
 // });
 
+
+// Gets a list of all team members, with an optional search filter.
 const getTeamList = asyncHandler(async (req, res) => {
   const { search } = req.query;
   let query = {};

@@ -3,6 +3,7 @@ import Notice from "../models/notis.js";
 import Task from "../models/taskModel.js";
 import User from "../models/userModel.js";
 
+// Creates a new task from user input
 const createTask = asyncHandler(async (req, res) => {
   try {
     const { userId } = req.user;
@@ -71,6 +72,8 @@ const createTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Copies an existing task to make a new one.
 const duplicateTask = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
@@ -128,6 +131,8 @@ const duplicateTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Changes the details of an existing task.
 const updateTask = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title, date, team, stage, priority, assets, links, description } =
@@ -161,6 +166,8 @@ const updateTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Changes the stage of a task (e.g., 'in progress', 'done').
 const updateTaskStage = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
@@ -180,6 +187,7 @@ const updateTaskStage = asyncHandler(async (req, res) => {
   }
 });
 
+// Marks a sub-task as complete or not complete.
 const updateSubTaskStage = asyncHandler(async (req, res) => {
   try {
     const { taskId, subTaskId } = req.params;
@@ -209,6 +217,8 @@ const updateSubTaskStage = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Adds a new, smaller sub-task to a main task.
 const createSubTask = asyncHandler(async (req, res) => {
   const { title, tag, date } = req.body;
   const { id } = req.params;
@@ -235,6 +245,8 @@ const createSubTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Gets all tasks, with optional filters for stage, trash, or search.
 const getTasks = asyncHandler(async (req, res) => {
   const { userId, isAdmin } = req.user;
   const { stage, isTrashed, search } = req.query;
@@ -274,6 +286,8 @@ const getTasks = asyncHandler(async (req, res) => {
   });
 });
 
+
+// Gets one specific task by its ID.
 const getTask = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
@@ -299,6 +313,8 @@ const getTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Adds a comment or activity log to a task.
 const postTaskActivity = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { userId } = req.user;
@@ -324,6 +340,8 @@ const postTaskActivity = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Moves a task to the trash (soft delete).
 const trashTask = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -343,6 +361,8 @@ const trashTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Deletes a task for good, or restores it from the trash.
 const deleteRestoreTask = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
@@ -374,6 +394,8 @@ const deleteRestoreTask = asyncHandler(async (req, res) => {
   }
 });
 
+
+// Gets all the numbers and data for the main dashboard.
 const dashboardStatistics = asyncHandler(async (req, res) => {
   try {
     const { userId, isAdmin } = req.user;
