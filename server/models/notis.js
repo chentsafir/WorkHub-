@@ -1,5 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
+
+/**
+ * Defines the schema for a Notification in the database.
+ * Each notice is intended for a team, can be linked to a task,
+ * and tracks which users have read it.
+ */
 const noticeSchema = new Schema(
   {
     team: [{ type: Schema.Types.ObjectId, ref: "User" }],

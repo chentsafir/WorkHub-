@@ -15,6 +15,14 @@ const port = process.env.PORT || 3001;
 
 const app = express();
 
+
+/* This file acts as the central hub for the application.
+ It initializes the server, connects to the database, 
+ applies all essential middleware (for security, logging, and data parsing), 
+ and then directs all incoming requests to the appropriate route handlers
+ before starting the server to listen for traffic.
+*/
+
 app.use(
   cors({
     origin: ["https://chents.netlify.app", "http://localhost:3000", "http://localhost:3001"],

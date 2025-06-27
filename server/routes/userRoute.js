@@ -16,6 +16,14 @@ import { isAdminRoute, protectRoute } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+
+/**
+ * This file sets up all API routes for user actions.
+ * It covers everything from public endpoints like login and
+ * registration to protected actions for individual users
+ * and administrators.
+ */
+
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);

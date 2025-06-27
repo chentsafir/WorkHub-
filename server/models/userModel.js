@@ -1,6 +1,11 @@
 import bcrypt from "bcryptjs";
 import mongoose, { Schema } from "mongoose";
 
+
+/**
+ * Defines the schema for a User in the database.
+ * It includes user details, their assigned tasks, and methods for password handling.
+ */
 const userSchema = new Schema(
   {
     name: { type: String, required: true },
