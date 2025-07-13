@@ -8,40 +8,24 @@ import Textbox from "./Textbox";
 import { useChangePasswordMutation } from "../redux/slices/api/userApiSlice";
 import { toast } from "sonner";
 
-/**
- * ChangePassword component
- * Modal form to change user password.
- * @param {boolean} open - Controls modal visibility.
- * @param {function} setOpen - Function to toggle modal visibility.
- */
 const ChangePassword = ({ open, setOpen }) => {
-  // Initialize react-hook-form
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // Mutation hook to change user password
   const [changeUserPassword, { isLoading }] = useChangePasswordMutation();
 
-  /**
-   * handleOnSubmit
-   * Submits new password after validation.
-   * @param {object} data - Form data containing password and confirmation.
-   */
   const handleOnSubmit = async (data) => {
-    // Check if passwords match
     if (data.password !== data.cpass) {
       toast.warning("Passwords doesn't match");
-      return; // stop submission if no match
+      return;
     }
     try {
-      // Call API to change password
       const res = await changeUserPassword(data).unwrap();
       toast.success("New User added successfully");
 
-      // Close modal after short delay
       setTimeout(() => {
         setOpen(false);
       }, 1500);
@@ -59,7 +43,7 @@ const ChangePassword = ({ open, setOpen }) => {
             as='h2'
             className='text-base font-bold leading-6 text-gray-900 mb-4'
           >
-            Change Passowrd {/* Modal title */}
+            Change Passowrd
           </Dialog.Title>
           <div className='mt-2 flex flex-col gap-6'>
             <Textbox
@@ -88,7 +72,7 @@ const ChangePassword = ({ open, setOpen }) => {
 
           {isLoading ? (
             <div className='py-5'>
-              <Loading /> {/* Show loading spinner while request in progress */}
+              <Loading />
             </div>
           ) : (
             <div className='py-3 mt-4 sm:flex sm:flex-row-reverse'>
@@ -101,7 +85,7 @@ const ChangePassword = ({ open, setOpen }) => {
               <button
                 type='button'
                 className='bg-white px-5 text-sm font-semibold text-gray-900 sm:w-auto'
-                onClick={() => setOpen(false)} // Close modal on cancel
+                onClick={() => setOpen(false)}
               >
                 Cancel
               </button>

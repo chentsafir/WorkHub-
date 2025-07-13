@@ -11,9 +11,6 @@ export const formatDate = (date) => {
 };
 
 export function dateFormatter(dateString) {
-  // Parses a date string into Date object
-  // Returns formatted string "yyyy-mm-dd"
-  // Returns "Invalid Date" if input is not a valid date
   const inputDate = new Date(dateString);
 
   if (isNaN(inputDate)) {
@@ -29,8 +26,6 @@ export function dateFormatter(dateString) {
 }
 
 export function getInitials(fullName) {
-  // Splits fullName by space, takes first two names, extracts first letter uppercase
-  // Joins initials into a string and returns it
   const names = fullName.split(" ");
 
   const initials = names.slice(0, 2).map((name) => name[0].toUpperCase());
@@ -41,9 +36,6 @@ export function getInitials(fullName) {
 }
 
 export const updateURL = ({ searchTerm, navigate, location }) => {
-  // Updates URL search params with given searchTerm
-  // Uses navigate function to change URL without reload, replacing current history entry
-  // Returns the new URL string
   const params = new URLSearchParams();
 
   if (searchTerm) {
@@ -82,8 +74,6 @@ export const getCompletedSubTasks = (items) => {
 };
 
 export function countTasksByStage(tasks) {
-  // Counts number of tasks in each stage: "in progress", "todo", "completed"
-  // Returns an object with counts per stage
   let inProgressCount = 0;
   let todoCount = 0;
   let completedCount = 0;

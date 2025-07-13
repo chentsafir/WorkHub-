@@ -3,19 +3,7 @@ import clsx from "clsx";
 import { FaQuestion } from "react-icons/fa";
 import { Button, ModalWrapper } from "./";
 
-/**
- * ConfirmationDialog component
- * Modal dialog to confirm destructive actions like delete or restore.
- *
- * @param {boolean} open - Controls modal visibility
- * @param {function} setOpen - Function to toggle modal visibility
- * @param {string} msg - Message to display inside the dialog
- * @param {function} onClick - Callback for confirm button click
- * @param {string} type - Type of action, e.g. "delete" or "restore"
- * @param {function} setMsg - Function to reset message state
- * @param {function} setType - Function to reset type state
- */
-export default function ConfirmationDialog({
+export default function ConfirmatioDialog({
   open,
   setOpen,
   msg,
@@ -24,7 +12,6 @@ export default function ConfirmationDialog({
   setMsg = () => {},
   setType = () => {},
 }) {
-  // Close modal and reset state to defaults
   const closeDialog = () => {
     setType("delete");
     setMsg(null);
@@ -68,7 +55,7 @@ export default function ConfirmationDialog({
             <Button
               type='button'
               className='bg-white px-8 text-sm font-semibold text-gray-900 sm:w-auto border'
-              onClick={closeDialog}
+              onClick={() => closeDialog()}
               label='Cancel'
             />
           </div>
@@ -78,16 +65,7 @@ export default function ConfirmationDialog({
   );
 }
 
-/**
- * UserAction component
- * Modal dialog for confirming user account activation/deactivation.
- *
- * @param {boolean} open - Controls modal visibility
- * @param {function} setOpen - Function to toggle modal visibility
- * @param {function} onClick - Callback for confirmation button
- */
 export function UserAction({ open, setOpen, onClick = () => {} }) {
-  // Close modal
   const closeDialog = () => {
     setOpen(false);
   };
@@ -103,7 +81,7 @@ export function UserAction({ open, setOpen, onClick = () => {} }) {
           </Dialog.Title>
 
           <p className='text-center text-gray-500'>
-            {"Are you sure you want to activate or deactivate this account?"}
+            {"Are you sure you want to activate or deactive this account?"}
           </p>
 
           <div className='bg-gray-50 py-3 sm:flex sm:flex-row-reverse gap-4'>
@@ -120,7 +98,7 @@ export function UserAction({ open, setOpen, onClick = () => {} }) {
             <Button
               type='button'
               className='bg-white px-8 text-sm font-semibold text-gray-900 sm:w-auto border'
-              onClick={closeDialog}
+              onClick={() => closeDialog()}
               label='No'
             />
           </div>

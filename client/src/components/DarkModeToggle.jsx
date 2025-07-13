@@ -1,23 +1,16 @@
 import React from 'react';
 import useDarkMode from '../utils/useDarkMode';
 
-/**
- * DarkModeToggle component
- * Button to toggle dark mode on and off.
- *
- * @returns {JSX.Element} Dark mode toggle button
- */
 const DarkModeToggle = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <button
-      onClick={toggleDarkMode} // Toggle dark mode on click
+      onClick={toggleDarkMode}
       className="fixed bottom-8 right-8 p-3 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors shadow-lg"
-      aria-label="Toggle dark mode" // Accessibility label
+      aria-label="Toggle dark mode"
     >
       {isDarkMode ? (
-        // Sun icon for dark mode active
         <svg
           className="w-6 h-6 text-yellow-500"
           fill="none"
@@ -33,7 +26,6 @@ const DarkModeToggle = () => {
           />
         </svg>
       ) : (
-        // Moon icon for dark mode inactive
         <svg
           className="w-6 h-6 text-gray-700"
           fill="none"
@@ -53,4 +45,4 @@ const DarkModeToggle = () => {
   );
 };
 
-export default DarkModeToggle;
+export default DarkModeToggle; 

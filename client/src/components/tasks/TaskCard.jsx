@@ -18,17 +18,12 @@ import {
 import UserInfo from "../UserInfo.jsx";
 import { AddSubTask, TaskAssets, TaskColor, TaskDialog } from "./index";
 
-/**
- * Renders a card displaying task details including:
- * - Priority with corresponding icon and style
- * - Title with color-coded stage indicator
- * - Task date formatted
- * - Summary of activities, assets, and sub-tasks
- * - Team members avatars
- * - First sub-task preview or "No Sub-Task" message
- * - Button to add sub-task (enabled for admins only)
- * Includes a modal to add sub-tasks.
- */
+const ICONS = {
+  high: <MdKeyboardDoubleArrowUp />,
+  medium: <MdKeyboardArrowUp />,
+  low: <MdKeyboardArrowDown />,
+};
+
 const TaskCard = ({ task }) => {
   const { user } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -43,7 +38,6 @@ const TaskCard = ({ task }) => {
               PRIOTITYSTYELS[task?.priority]
             )}
           >
-            {/* Priority icon */}
             <span className='text-lg'>{ICONS[task?.priority]}</span>
             <span className='uppercase'>{task?.priority} Priority</span>
           </div>
@@ -52,7 +46,6 @@ const TaskCard = ({ task }) => {
         <>
           <Link to={`/task/${task._id}`}>
             <div className='flex items-center gap-2'>
-              {/* Color indicator for task stage */}
               <TaskColor className={TASK_TYPE[task.stage]} />
               <h4 className='text- line-clamp-1 text-black dark:text-white'>
                 {task?.title}
@@ -60,21 +53,18 @@ const TaskCard = ({ task }) => {
             </div>
           </Link>
           <span className='text-sm text-gray-600 dark:text-gray-400'>
-            {/* Formatted task date */}
             {formatDate(new Date(task?.date))}
           </span>
         </>
 
         <div className='w-full border-t border-gray-200 dark:border-gray-700 my-2' />
         <div className='flex items-center justify-between mb-2'>
-          {/* Summary of activities, assets, and sub-tasks */}
           <TaskAssets
             activities={task?.activities?.length}
             subTasks={task?.subTasks}
             assets={task?.assets?.length}
           />
 
-          {/* Team member avatars */}
           <div className='flex flex-row-reverse'>
             {task?.team?.length > 0 &&
               task?.team?.map((m, index) => (
@@ -91,7 +81,7 @@ const TaskCard = ({ task }) => {
           </div>
         </div>
 
-        {/* Sub-task preview or message if none */}
+        {/* subtasks */}
         {task?.subTasks?.length > 0 ? (
           <div className='py-4 border-t border-gray-200 dark:border-gray-700'>
             <h5 className='text-base line-clamp-1 text-black dark:text-gray-400'>
@@ -115,7 +105,6 @@ const TaskCard = ({ task }) => {
           </div>
         )}
 
-        {/* Button to add sub-task, disabled for non-admins */}
         <div className='w-full pb-2'>
           <button
             disabled={user.isAdmin ? false : true}
@@ -128,7 +117,6 @@ const TaskCard = ({ task }) => {
         </div>
       </div>
 
-      {/* Modal to add a new sub-task */}
       <AddSubTask open={open} setOpen={setOpen} id={task._id} />
     </>
   );

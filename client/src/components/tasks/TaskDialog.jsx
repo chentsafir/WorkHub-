@@ -20,10 +20,6 @@ import AddTask from "./AddTask";
 import TaskColor from "./TaskColor";
 import { useSelector } from "react-redux";
 
-/**
- * CustomTransition component wraps children with Headless UI Transition,
- * providing enter and leave animations for dropdown menus.
- */
 const CustomTransition = ({ children }) => (
   <Transition
     as={Fragment}
@@ -38,45 +34,28 @@ const CustomTransition = ({ children }) => (
   </Transition>
 );
 
-/**
- * ChangeTaskActions component displays a dropdown menu allowing the user
- * to change the stage of a task (To-Do, In Progress, Completed).
- * 
- * @param {string} _id - The ID of the task.
- * @param {string} stage - The current stage of the task.
- */
 const ChangeTaskActions = ({ _id, stage }) => {
-  // Hook for triggering the API call to change the task stage.
   const [changeStage] = useChangeTaskStageMutation();
 
-  /**
-   * Handles stage change request.
-   * @param {string} val - The new stage value.
-   */
   const changeHanlder = async (val) => {
     try {
       const data = {
         id: _id,
         stage: val,
       };
-      // Call the API and unwrap the response.
       const res = await changeStage(data).unwrap();
 
-      // Show success toast.
       toast.success(res?.message);
 
-      // Reload page shortly after change.
       setTimeout(() => {
         window.location.reload();
       }, 500);
     } catch (err) {
       console.log(err);
-      // Show error toast.
       toast.error(err?.data?.message || err.error);
     }
   };
 
-  // Dropdown menu items for changing stages.
   const items = [
     {
       label: "To-Do",
@@ -138,37 +117,21 @@ const ChangeTaskActions = ({ _id, stage }) => {
   );
 };
 
-/**
- * TaskDialog component displays a menu for task options such as:
- * open, edit, add sub-task, duplicate, change stage, and delete.
- * 
- * @param {object} task - The task object to operate on.
- */
 export default function TaskDialog({ task }) {
-  // Get current user from Redux state.
   const { user } = useSelector((state) => state.auth);
-
-  // Local state for controlling modals/dialogs visibility.
-  const [open, setOpen] = useState(false); // AddSubTask modal
-  const [openEdit, setOpenEdit] = useState(false); // Edit task modal
-  const [openDialog, setOpenDialog] = useState(false); // Confirm delete dialog
+  const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const navigate = useNavigate();
 
-  // Mutation hooks for deleting and duplicating tasks.
   const [deleteTask] = useTrashTastMutation();
   const [duplicateTask] = useDuplicateTaskMutation();
 
-  /**
-   * Opens the confirmation dialog for deletion.
-   */
   const deleteClicks = () => {
     setOpenDialog(true);
   };
 
-  /**
-   * Handles deletion of the task via API call.
-   */
   const deleteHandler = async () => {
     try {
       const res = await deleteTask({
@@ -178,7 +141,6 @@ export default function TaskDialog({ task }) {
 
       toast.success(res?.message);
 
-      // Close dialog and reload page shortly after deletion.
       setTimeout(() => {
         setOpenDialog(false);
         window.location.reload();
@@ -189,16 +151,12 @@ export default function TaskDialog({ task }) {
     }
   };
 
-  /**
-   * Handles duplication of the task via API call.
-   */
   const duplicateHanlder = async () => {
     try {
       const res = await duplicateTask(task._id).unwrap();
 
       toast.success(res?.message);
 
-      // Close dialog and reload page shortly after duplication.
       setTimeout(() => {
         setOpenDialog(false);
         window.location.reload();
@@ -209,7 +167,6 @@ export default function TaskDialog({ task }) {
     }
   };
 
-  // Menu items shown in the dropdown.
   const items = [
     {
       label: "Open Task",
@@ -264,7 +221,6 @@ export default function TaskDialog({ task }) {
 
               <div className='px-1 py-1'>
                 <Menu.Item>
-                  {/* Pass task props to ChangeTaskActions component */}
                   <ChangeTaskActions id={task._id} {...task} />
                 </Menu.Item>
               </div>
@@ -293,7 +249,6 @@ export default function TaskDialog({ task }) {
         </Menu>
       </div>
 
-      {/* Modals and confirmation dialogs */}
       <AddTask
         open={openEdit}
         setOpen={setOpenEdit}

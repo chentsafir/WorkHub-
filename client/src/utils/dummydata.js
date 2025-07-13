@@ -1,5 +1,3 @@
-
-// List of tasks with details like id, title, priority, stage, date, comments, assets, team members, and subtasks.
 export const tasks = [
   {
     _id: "1",
@@ -245,7 +243,7 @@ export const tasks = [
     ],
   },
 ];
-// List of activities related to tasks, each with id, type, description, date, and user who performed it.
+
 export const activitiesData = [
   {
     _id: "0",
@@ -293,7 +291,7 @@ export const activitiesData = [
     by: "Akwasi Asante",
   },
 ];
-// List of users with name, title, email, role, and optional active status.
+
 export const users = [
   {
     name: "John Doe",

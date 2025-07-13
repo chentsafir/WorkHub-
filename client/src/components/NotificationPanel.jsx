@@ -11,9 +11,6 @@ import {
 } from "../redux/slices/api/userApiSlice";
 import ViewNotification from "./ViewNotification";
 
-/** 
- * Icons mapping by notification type.
- */
 const ICONS = {
   alert: (
     <HiBellAlert className='h-5 w-5 text-gray-600 group-hover:text-indigo-600' />
@@ -23,43 +20,25 @@ const ICONS = {
   ),
 };
 
-/**
- * NotificationPanel component
- * Shows notification bell with unread count.
- * Displays a popover listing recent notifications.
- * Allows marking notifications as read (single or all).
- * Opens detailed view on notification click.
- */
 export default function NotificationPanel() {
-  const [open, setOpen] = useState(false); // Popover open state
-  const [selected, setSelected] = useState(null); // Currently viewed notification
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
 
-  // Fetch notifications from API
   const { data, refetch } = useGetNotificationsQuery();
-  // Mutation to mark notifications as read
   const [markAsRead] = useMarkNotiAsReadMutation();
 
-  /**
-   * Handle viewing a notification.
-   * Sets selected notification, marks it as read, and opens detail view.
-   */
   const viewHandler = (el) => {
     setSelected(el);
     readHandler("one", el._id);
     setOpen(true);
   };
 
-  /**
-   * Marks notifications as read.
-   * Type can be "one" or "all".
-   * Refetches notifications after marking as read.
-   */
   const readHandler = async (type, id) => {
     await markAsRead({ type, id }).unwrap();
+
     refetch();
   };
 
-  // Actions shown in the popover footer
   const callsToAction = [
     { name: "Cancel", href: "#", icon: "" },
     {
@@ -76,7 +55,6 @@ export default function NotificationPanel() {
         <Popover.Button className='inline-flex items-center outline-none'>
           <div className='w-8 h-8 flex items-center justify-center text-gray-800 dark:text-white  relative'>
             <IoIosNotificationsOutline className='text-2xl' />
-            {/* Show unread count badge if notifications exist */}
             {data?.length > 0 && (
               <span className='absolute text-center top-0 right-1 text-sm text-white font-semibold w-4 h-4 rounded-full bg-red-600'>
                 {data?.length}
@@ -99,7 +77,6 @@ export default function NotificationPanel() {
               data?.length > 0 && (
                 <div className='w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white dark:bg-[#1f1f1f] text-sm leading-6 shadow-lg ring-1 ring-gray-900/5'>
                   <div className='p-4'>
-                    {/* List the 5 most recent notifications */}
                     {data?.slice(0, 5).map((item, index) => (
                       <div
                         key={item._id + index}
@@ -109,7 +86,6 @@ export default function NotificationPanel() {
                           {ICONS[item.notiType]}
                         </div>
 
-                        {/* Notification summary clickable to open detail */}
                         <div
                           className='cursor-pointer'
                           onClick={() => viewHandler(item)}
@@ -128,7 +104,6 @@ export default function NotificationPanel() {
                     ))}
                   </div>
 
-                  {/* Footer actions: Cancel and Mark All Read */}
                   <div className='grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50 dark:bg-[#1f1f1f]'>
                     {callsToAction.map((item) => (
                       <Link
@@ -148,7 +123,6 @@ export default function NotificationPanel() {
           </Popover.Panel>
         </Transition>
       </Popover>
-      {/* Modal for viewing selected notification */}
       <ViewNotification open={open} setOpen={setOpen} el={selected} />
     </>
   );

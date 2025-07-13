@@ -1,13 +1,9 @@
-/* Import Google font 'Nunito Sans' with various weights and optical sizes */
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200;6..12,300;6..12,400;6..12,500;6..12,600;6..12,700;6..12,800;6..12,900;6..12,1000&display=swap");
 
-/* Tailwind CSS base, components, and utilities layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Reset margin and padding for all elements and set box-sizing to border-box */
-/* Apply 'Nunito Sans' font family globally */
 * {
   margin: 0;
   padding: 0;
@@ -16,14 +12,12 @@
   font-family: "Nunito Sans", sans-serif;
 }
 
-/* Utility class for cells: inline-block, half-width, centered text */
 .cell {
   display: inline-block;
   width: 49%;
   text-align: center;
 }
 
-/* Circle shape styling: fixed size, rounded fully, purple background and inset shadow */
 .circle {
   display: inline-block;
   width: 100px;
@@ -33,12 +27,10 @@
   box-shadow: 4px -40px 60px 5px rgb(40, 37, 203) inset;
 }
 
-/* Class to apply rotation animation */
 .rotate-in-up-left {
   animation: rotate-in-up-left 2s ease infinite;
 }
 
-/* Keyframes for rotating in from upper left with fade in */
 @keyframes rotate-in-up-left {
   0% {
     transform-origin: left bottom;
@@ -52,38 +44,35 @@
   }
 }
 
-/* Styling for form container with shadow and rounded corners */
 .form-container {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 10px;
   box-sizing: border-box;
 }
 
-/* Custom scrollbar styles for WebKit browsers */
-
-/* Scrollbar track width */
+/* Custom Scrollbar Styles */
+/* Track */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
-/* Scrollbar thumb styling, initially hidden */
+/* Handle */
 ::-webkit-scrollbar-thumb {
   background-color: #807c7c;
   border-radius: 6px;
   display: none;
 }
 
-/* Scrollbar thumb color on hover */
+/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #302f2f;
 }
 
-/* Scrollbar track background transparent */
+/* Track */
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* Container for dots loader: flexbox centered horizontally and vertically */
 .dots-container {
   display: flex;
   align-items: center;
@@ -93,7 +82,6 @@
   margin-bottom: 5px;
 }
 
-/* Each dot styling: size, margin, round shape, white background */
 .dot {
   height: 12px;
   width: 12px;
@@ -103,23 +91,22 @@
   animation: pulse 1.5s infinite ease-in-out;
 }
 
-/* Remove right margin from last dot */
 .dot:last-child {
   margin-right: 0;
 }
 
-/* Stagger animation delays for dots to create wave effect */
 .dot:nth-child(1) {
   animation-delay: -0.3s;
 }
+
 .dot:nth-child(2) {
   animation-delay: -0.1s;
 }
+
 .dot:nth-child(3) {
   animation-delay: 0.1s;
 }
 
-/* Pulse keyframes: scale and color change with shadow glow */
 @keyframes pulse {
   0% {
     transform: scale(0.8);

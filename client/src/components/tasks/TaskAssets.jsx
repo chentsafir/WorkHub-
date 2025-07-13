@@ -3,12 +3,7 @@ import { BiMessageAltDetail } from "react-icons/bi";
 import { FaList } from "react-icons/fa";
 import { MdAttachFile } from "react-icons/md";
 import { getCompletedSubTasks } from "../../utils";
-/**
- * TaskAssets component displays a summary of task-related metadata:
- * - Number of comments/activities
- * - Number of attached assets
- * - Number of completed sub-tasks out of total
- */
+
 const TaskAssets = ({ activities, assets, subTasks }) => {
   return (
     <div className='flex items-center gap-3'>
