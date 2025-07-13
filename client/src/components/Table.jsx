@@ -19,6 +19,13 @@ const ICONS = {
   low: <MdKeyboardArrowDown />,
 };
 
+/**
+ * * Table component that renders a list of tasks in a table format.
+ * * Supports editing and deleting tasks with confirmation dialog.
+ * @param {Object} props
+ * @param {Array} props.tasks - Array of task objects to display.
+ * @returns JSX.Element
+ */
 const Table = ({ tasks }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -26,16 +33,31 @@ const Table = ({ tasks }) => {
 
   const [deleteTask] = useTrashTastMutation();
 
+  /**
+   * * Handles click event for delete button,
+   * * opens confirmation dialog for the selected task.
+   * @param {string} id - Task ID to delete.
+   */
   const deleteClicks = (id) => {
     setSelected(id);
     setOpenDialog(true);
   };
 
+  /**
+   * * Handles click event for edit button,
+   * * opens the edit modal for the selected task.
+   * @param {Object} el - Task object to edit.
+   */
   const editClickHandler = (el) => {
     setSelected(el);
     setOpenEdit(true);
   };
 
+  /**
+   * * Deletes the selected task by calling the API,
+   * * shows toast notifications for success/error,
+   * * reloads the page after successful deletion.
+   */
   const deleteHandler = async () => {
     try {
       const res = await deleteTask({
@@ -55,6 +77,10 @@ const Table = ({ tasks }) => {
     }
   };
 
+  /**
+   * * Renders the table header for the tasks table.
+   * @returns JSX.Element
+   */
   const TableHeader = () => (
     <thead className='w-full border-b border-gray-300 dark:border-gray-600'>
       <tr className='w-full text-black dark:text-white  text-left'>
@@ -67,6 +93,12 @@ const Table = ({ tasks }) => {
     </thead>
   );
 
+  /**
+   * * Renders a single row in the tasks table.
+   * @param {Object} props
+   * @param {Object} props.task - Task object for this row.
+   * @returns JSX.Element
+   */
   const TableRow = ({ task }) => (
     <tr className='border-b border-gray-200 text-gray-600 hover:bg-gray-300/10'>
       <td className='py-2'>

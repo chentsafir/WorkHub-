@@ -3,14 +3,25 @@ import { useGetUserTaskStatusQuery } from "../redux/slices/api/userApiSlice";
 import { countTasksByStage, getInitials } from "../utils";
 import { Loading, Title } from "../components";
 
+/**
+ * StatusPage component displays a table showing task progress and counts per user.
+ * It fetches user task status data via RTK Query and shows a loading spinner while loading.
+ */
 const StatusPage = () => {
+  // Fetch user task status data
   const { data, isLoading } = useGetUserTaskStatusQuery();
 
+  // Show loading spinner while data is loading
   if (isLoading)
-    <div className='py-10'>
-      <Loading />
-    </div>;
+    return (
+      <div className='py-10'>
+        <Loading />
+      </div>
+    );
 
+  /**
+   * TableHeader component renders the table column headers.
+   */
   const TableHeader = () => (
     <thead className='border-b border-gray-300 dark:border-gray-600'>
       <tr className='text-black dark:text-white  text-left'>
@@ -23,9 +34,15 @@ const StatusPage = () => {
     </thead>
   );
 
+  /**
+   * TableRow component renders a single user row with task progress percentages and counts.
+   * @param {object} user - User object with tasks array and details.
+   */
   const TableRow = ({ user }) => {
+    // Count tasks by status stage
     const counts = countTasksByStage(user?.tasks);
-    const totalTasks = user?.tasks?.length || 1; // Avoid division by zero
+    // Total tasks count, fallback to 1 to avoid division by zero
+    const totalTasks = user?.tasks?.length || 1;
 
     return (
       <tr className='border-b border-gray-200 text-gray-600 hover:bg-gray-400/10'>
@@ -41,28 +58,23 @@ const StatusPage = () => {
         </td>
         <td className='p-2'>{user.title}</td>
         <td className='p-2'>
-          {
-            <div className='flex items-center gap-2 text-white text-sm'>
-              <p className='px-2 py-1 bg-blue-600 rounded'>
-                {((counts.inProgress / totalTasks) * 100).toFixed(1)}%
-              </p>
-              <p className='px-2 py-1 bg-amber-600 rounded'>
-                {((counts.todo / totalTasks) * 100).toFixed(1)}%
-              </p>
-              <p className='px-2 py-1 bg-emerald-600 rounded'>
-                {((counts.completed / totalTasks) * 100).toFixed(1)}%
-              </p>
-            </div>
-          }
+          <div className='flex items-center gap-2 text-white text-sm'>
+            <p className='px-2 py-1 bg-blue-600 rounded'>
+              {((counts.inProgress / totalTasks) * 100).toFixed(1)}%
+            </p>
+            <p className='px-2 py-1 bg-amber-600 rounded'>
+              {((counts.todo / totalTasks) * 100).toFixed(1)}%
+            </p>
+            <p className='px-2 py-1 bg-emerald-600 rounded'>
+              {((counts.completed / totalTasks) * 100).toFixed(1)}%
+            </p>
+          </div>
         </td>
-
         <td className='p-2 flex gap-3'>
           <span>{counts.inProgress}</span> {" | "}
-          <span>{counts.todo}</span>
-          {" | "}
+          <span>{counts.todo}</span> {" | "}
           <span>{counts.completed}</span>
         </td>
-
         <td className='p-2'>
           <span>{user?.tasks?.length}</span>
         </td>

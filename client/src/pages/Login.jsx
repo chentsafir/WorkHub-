@@ -7,8 +7,15 @@ import { useLoginMutation } from "../redux/slices/api/authApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
 import { useEffect } from "react";
 
+/**
+ * Login component provides a form for user authentication.
+ * Handles form submission with validation, dispatches login API call,
+ * stores credentials on success, and redirects to dashboard.
+ */
 const Login = () => {
   const { user } = useSelector((state) => state.auth);
+
+  // Setup react-hook-form for form state management and validation
   const {
     register,
     handleSubmit,
@@ -19,6 +26,12 @@ const Login = () => {
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
+  /**
+   * Handles login form submission.
+   * Calls login API, dispatches credentials to store, and navigates on success.
+   * Shows error toast on failure.
+   * @param {Object} data - Form data containing email and password
+   */
   const handleLogin = async (data) => {
     try {
       const res = await login(data).unwrap();
@@ -30,8 +43,9 @@ const Login = () => {
     }
   };
 
+  // Redirect to dashboard if user is already authenticated
   useEffect(() => {
-    user && navigate("/dashboard");
+    if (user) navigate("/dashboard");
   }, [user]);
 
   return (
@@ -40,7 +54,7 @@ const Login = () => {
         <div className='h-full w-full lg:w-2/3 flex flex-col items-center justify-center'>
           <div className='w-full md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:-mt-20'>
             <span className='flex gap-1 py-1 px-3 border rounded-full text-sm md:text-base dark:border-gray-700 dark:text-blue-400 border-gray-300 text-gray-600'>
-            Your team's tasks, all in one place!
+              Your team's tasks, all in one place!
             </span>
             <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center dark:text-gray-400 text-blue-700'>
               <span>WorkHub</span>

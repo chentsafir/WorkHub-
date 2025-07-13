@@ -1,8 +1,17 @@
 import { TASKS_URL } from "../../../utils/contants";
 import { apiSlice } from "../apiSlice";
 
+/**
+ * postApiSlice - injects task-related endpoints into the base apiSlice.
+ * Provides queries and mutations for creating, updating, duplicating,
+ * trashing, deleting/restoring tasks, managing subtasks, activities, and stats.
+ */
 export const postApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    /**
+     * createTask mutation - creates a new task with provided data.
+     * @param {Object} data - task details
+     */
     createTask: builder.mutation({
       query: (data) => ({
         url: `${TASKS_URL}/create`,
@@ -12,6 +21,10 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * duplicateTask mutation - duplicates a task by id.
+     * @param {string} id - task id to duplicate
+     */
     duplicateTask: builder.mutation({
       query: (id) => ({
         url: `${TASKS_URL}/duplicate/${id}`,
@@ -21,6 +34,11 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * updateTask mutation - updates an existing task by id.
+     * Invalidates 'UserTaskStatus' cache tag.
+     * @param {Object} data - updated task data (must include _id)
+     */
     updateTask: builder.mutation({
       query: (data) => ({
         url: `${TASKS_URL}/update/${data._id}`,
@@ -28,9 +46,16 @@ export const postApiSlice = apiSlice.injectEndpoints({
         body: data,
         credentials: "include",
       }),
-      invalidatesTags: ['UserTaskStatus'],// <-- add this
+      invalidatesTags: ['UserTaskStatus'],
     }),
 
+    /**
+     * getAllTask query - fetches all tasks filtered by stage, trash status and search.
+     * @param {Object} params - filters for query
+     * @param {string} params.strQuery - task stage filter
+     * @param {string} params.isTrashed - trash filter
+     * @param {string} params.search - search keyword
+     */
     getAllTask: builder.query({
       query: ({ strQuery, isTrashed, search }) => ({
         url: `${TASKS_URL}?stage=${strQuery}&isTrashed=${isTrashed}&search=${search}`,
@@ -39,6 +64,10 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * getSingleTask query - fetches single task by id.
+     * @param {string} id - task id
+     */
     getSingleTask: builder.query({
       query: (id) => ({
         url: `${TASKS_URL}/${id}`,
@@ -47,6 +76,12 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * createSubTask mutation - adds a subtask to a task by task id.
+     * @param {Object} param0
+     * @param {Object} param0.data - subtask data
+     * @param {string} param0.id - parent task id
+     */
     createSubTask: builder.mutation({
       query: ({ data, id }) => ({
         url: `${TASKS_URL}/create-subtask/${id}`,
@@ -56,6 +91,12 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * postTaskActivity mutation - posts activity data to a task.
+     * @param {Object} param0
+     * @param {Object} param0.data - activity details
+     * @param {string} param0.id - task id
+     */
     postTaskActivity: builder.mutation({
       query: ({ data, id }) => ({
         url: `${TASKS_URL}/activity/${id}`,
@@ -65,6 +106,11 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * trashTast mutation - marks a task as trashed by id.
+     * @param {Object} param0
+     * @param {string} param0.id - task id
+     */
     trashTast: builder.mutation({
       query: ({ id }) => ({
         url: `${TASKS_URL}/${id}`,
@@ -73,6 +119,12 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * deleteRestoreTast mutation - deletes or restores a task by id and action type.
+     * @param {Object} param0
+     * @param {string} param0.id - task id
+     * @param {string} param0.actionType - action to perform ("delete" or "restore")
+     */
     deleteRestoreTast: builder.mutation({
       query: ({ id, actionType }) => ({
         url: `${TASKS_URL}/delete-restore/${id}?actionType=${actionType}`,
@@ -81,6 +133,9 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * getDasboardStats query - fetches dashboard statistics related to tasks.
+     */
     getDasboardStats: builder.query({
       query: () => ({
         url: `${TASKS_URL}/dashboard`,
@@ -89,6 +144,10 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * changeTaskStage mutation - changes the stage of a task by id.
+     * @param {Object} data - must include id and new stage value
+     */
     changeTaskStage: builder.mutation({
       query: (data) => ({
         url: `${TASKS_URL}/change-stage/${data?.id}`,
@@ -98,6 +157,10 @@ export const postApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    /**
+     * changeSubTaskStatus mutation - changes the status of a subtask.
+     * @param {Object} data - must include id (task id), subId (subtask id), and new status
+     */
     changeSubTaskStatus: builder.mutation({
       query: (data) => ({
         url: `${TASKS_URL}/change-status/${data?.id}/${data?.subId}`,
@@ -109,6 +172,7 @@ export const postApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
+// Export hooks for use in components
 export const {
   usePostTaskActivityMutation,
   useCreateTaskMutation,

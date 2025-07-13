@@ -1,3 +1,4 @@
+// Base URLs for user, task, and admin API endpoints
 const USERS_URL = "/user";
 
 const TASKS_URL = "/task";
