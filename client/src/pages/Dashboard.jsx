@@ -15,6 +15,13 @@ import { useGetDasboardStatsQuery } from "../redux/slices/api/taskApiSlice";
 import { BGS, PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import { useSelector } from "react-redux";
 
+/**
+ * Card component displays a statistic card with label, count and icon.
+ * @param {string} label - The label of the card.
+ * @param {number} count - The numeric count to display.
+ * @param {string} bg - Background color class for the icon container.
+ * @param {JSX.Element} icon - Icon to display in the card.
+ */
 const Card = ({ label, count, bg, icon }) => {
   return (
     <div className='w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between'>
@@ -34,10 +41,15 @@ const Card = ({ label, count, bg, icon }) => {
   );
 };
 
+/**
+ * Dashboard component fetches and displays task statistics and tables.
+ * Shows cards, priority chart, recent tasks and users (if admin).
+ */
 const Dashboard = () => {
   const { data, isLoading, error } = useGetDasboardStatsQuery();
   const { user } = useSelector((state) => state.auth);
 
+  // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
@@ -51,6 +63,7 @@ const Dashboard = () => {
       </div>
     );
 
+  // Prepare stats array for cards display
   const stats = [
     {
       _id: "1",
@@ -85,22 +98,24 @@ const Dashboard = () => {
   return (
     <div className='h-full py-4'>
       <>
+        {/* Stats cards grid */}
         <div className='grid grid-cols-1 md:grid-cols-4 gap-5'>
           {stats?.map(({ icon, bg, label, total }, index) => (
             <Card key={index} icon={icon} bg={bg} label={label} count={total} />
           ))}
         </div>
 
+        {/* Priority chart */}
         <div className='w-full bg-white my-16 p-4 rounded shadow-sm'>
           <h4 className='text-xl text-gray-500 font-bold mb-2'>
             Chart by Priority
           </h4>
           <Chart data={data?.graphData} />
         </div>
+
+        {/* Tables: Recent Tasks and Users (if admin) */}
         <div className='w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8'>
-          {/* RECENT AUTHORS */}
           {data && <TaskTable tasks={data?.last10Task} />}
-          {/* RECENT USERS */}
           {data && user?.isAdmin && <UserTable users={data?.users} />}
         </div>
       </>
@@ -108,7 +123,12 @@ const Dashboard = () => {
   );
 };
 
+/**
+ * UserTable component displays a table of users with name, status and created date.
+ * @param {Array} users - List of user objects to display.
+ */
 const UserTable = ({ users }) => {
+  // Table header for user table
   const TableHeader = () => (
     <thead className='border-b border-gray-300 dark:border-gray-600'>
       <tr className='text-black dark:text-white  text-left'>
@@ -119,10 +139,12 @@ const UserTable = ({ users }) => {
     </thead>
   );
 
+  // Single user row in table
   const TableRow = ({ user }) => (
     <tr className='border-b border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-400/10'>
       <td className='py-2'>
         <div className='flex items-center gap-3'>
+          {/* User initials avatar */}
           <div className='w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-violet-700'>
             <span className='text-center'>{getInitials(user?.name)}</span>
           </div>
@@ -133,6 +155,7 @@ const UserTable = ({ users }) => {
         </div>
       </td>
 
+      {/* Active or Disabled status */}
       <td>
         <p
           className={clsx(
@@ -143,6 +166,8 @@ const UserTable = ({ users }) => {
           {user?.isActive ? "Active" : "Disabled"}
         </p>
       </td>
+
+      {/* Created date relative time */}
       <td className='py-2 text-sm'>{moment(user?.createdAt).fromNow()}</td>
     </tr>
   );
@@ -161,15 +186,21 @@ const UserTable = ({ users }) => {
   );
 };
 
+/**
+ * TaskTable component displays a table of tasks with title, priority, team, and creation date.
+ * @param {Array} tasks - List of task objects to display.
+ */
 const TaskTable = ({ tasks }) => {
   const { user } = useSelector((state) => state.auth);
 
+  // Icons mapping by priority level
   const ICONS = {
     high: <MdKeyboardDoubleArrowUp />,
     medium: <MdKeyboardArrowUp />,
     low: <MdKeyboardArrowDown />,
   };
 
+  // Table header for tasks table
   const TableHeader = () => (
     <thead className='border-b border-gray-300 dark:border-gray-600'>
       <tr className='text-black dark:text-white  text-left'>
@@ -181,10 +212,12 @@ const TaskTable = ({ tasks }) => {
     </thead>
   );
 
+  // Single task row in table
   const TableRow = ({ task }) => (
     <tr className='border-b border-gray-200 text-gray-600 hover:bg-gray-300/10'>
       <td className='py-2'>
         <div className='flex items-center gap-2'>
+          {/* Task stage indicator colored dot */}
           <div
             className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}
           />
@@ -204,6 +237,7 @@ const TaskTable = ({ tasks }) => {
 
       <td className='py-2'>
         <div className='flex'>
+          {/* Render team members' avatars */}
           {task?.team.map((m, index) => (
             <div
               key={index}
@@ -218,6 +252,7 @@ const TaskTable = ({ tasks }) => {
         </div>
       </td>
 
+      {/* Created date relative time (hidden on small screens) */}
       <td className='py-2 hidden md:block'>
         <span className='text-base text-gray-600'>
           {moment(task?.date).fromNow()}

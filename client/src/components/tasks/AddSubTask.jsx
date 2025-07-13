@@ -9,27 +9,32 @@ import Loading from "../Loading";
 import ModalWrapper from "../ModalWrapper";
 import Textbox from "../Textbox";
 
+/**
+ * AddSubTask component
+ * Renders a modal form to create a new sub-task with title, date, and tag fields.
+ * Uses react-hook-form for form state and mutation for creating the sub-task.
+ */
 const AddSubTask = ({ open, setOpen, id }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm(); // Initialize form handling
 
-  const [addSbTask, { isLoading }] = useCreateSubTaskMutation();
+  const [addSbTask, { isLoading }] = useCreateSubTaskMutation(); // Create sub-task mutation
 
+  // Handle form submission to create a new sub-task
   const handleOnSubmit = async (data) => {
     try {
-      const res = await addSbTask({ data, id }).unwrap();
-
-      toast.success(res.message);
+      const res = await addSbTask({ data, id }).unwrap(); // Call API to add sub-task
+      toast.success(res.message); // Show success notification
 
       setTimeout(() => {
-        setOpen(false);
+        setOpen(false); // Close modal after a short delay
       }, 500);
     } catch (err) {
-      console.log(err);
-      toast.error(err?.data?.message || err.error);
+      console.log(err); // Log error for debugging
+      toast.error(err?.data?.message || err.error); // Show error notification
     }
   };
 
@@ -52,8 +57,8 @@ const AddSubTask = ({ open, setOpen, id }) => {
               className='w-full rounded'
               register={register("title", {
                 required: "Title is required!",
-              })}
-              error={errors.title ? errors.title.message : ""}
+              })} // Register title field with validation
+              error={errors.title ? errors.title.message : ""} // Display title error
             />
 
             <div className='flex items-center gap-4'>
@@ -65,8 +70,8 @@ const AddSubTask = ({ open, setOpen, id }) => {
                 className='w-full rounded'
                 register={register("date", {
                   required: "Date is required!",
-                })}
-                error={errors.date ? errors.date.message : ""}
+                })} // Register date field with validation
+                error={errors.date ? errors.date.message : ""} // Display date error
               />
               <Textbox
                 placeholder='Tag'
@@ -76,27 +81,26 @@ const AddSubTask = ({ open, setOpen, id }) => {
                 className='w-full rounded'
                 register={register("tag", {
                   required: "Tag is required!",
-                })}
-                error={errors.tag ? errors.tag.message : ""}
+                })} // Register tag field with validation
+                error={errors.tag ? errors.tag.message : ""} // Display tag error
               />
             </div>
           </div>
           {isLoading ? (
             <div className='mt-8'>
-              <Loading />
+              <Loading /> {/* Show loading indicator when submitting */}
             </div>
           ) : (
             <div className='py-3 mt-4 flex sm:flex-row-reverse gap-4'>
               <Button
                 type='submit'
                 className='bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 sm:ml-3 sm:w-auto'
-                label='Add Task'
+                label='Add Task' // Submit button
               />
-
               <Button
                 type='button'
                 className='bg-white border text-sm font-semibold text-gray-900 sm:w-auto'
-                onClick={() => setOpen(false)}
+                onClick={() => setOpen(false)} // Close modal on cancel
                 label='Cancel'
               />
             </div>

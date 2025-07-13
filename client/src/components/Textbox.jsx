@@ -1,6 +1,20 @@
 import React from "react";
 import clsx from "clsx";
 
+/**
+ * * Textbox component for rendering an input field with optional label and error message.
+ * @param {Object} props
+ * @param {string} props.type - Input type (default: "text").
+ * @param {string} props.placeholder - Placeholder text for the input.
+ * @param {string} props.label - Optional label text displayed above the input.
+ * @param {string} props.className - Additional CSS classes for the input.
+ * @param {string} props.labelClass - Additional CSS classes for the label.
+ * @param {object} props.register - Object from react-hook-form or similar for form registration.
+ * @param {string} props.name - Name attribute for the input.
+ * @param {string} props.error - Optional error message displayed below the input.
+ * @param {React.Ref} ref - Forwarded ref for the input element.
+ * @returns JSX.Element
+ */
 const Textbox = React.forwardRef(
   (
     { type, placeholder, label, className, labelClass, register, name, error },

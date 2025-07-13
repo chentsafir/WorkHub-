@@ -14,6 +14,9 @@ import { setOpenSidebar } from "../redux/slices/authSlice";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import { WindToyIcon } from "./WindToyIcon";
 
+/*
+ * Array of sidebar link objects with label, link path and icon component
+ */
 const linkData = [
   {
     label: "Dashboard",
@@ -59,16 +62,30 @@ const linkData = [
 
 const Sidebar = () => {
   const { user } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
   const location = useLocation();
+
+  /*
+   * Get current path from URL to set active link styling
+   */
   const path = location.pathname.split("/")[1];
+
+  /*
+   * Show full sidebar links if user is admin, otherwise show first 5 links only
+   */
   const sidebarLinks = user?.isAdmin ? linkData : linkData.slice(0, 5);
 
+  /*
+   * Dispatch action to close sidebar
+   */
   const closeSidebar = () => {
     dispatch(setOpenSidebar(false));
   };
 
+  /*
+   * Render individual navigation link with active style based on current path
+   * @param {object} el - Link object with label, path, and icon
+   */
   const NavLink = ({ el }) => {
     return (
       <Link

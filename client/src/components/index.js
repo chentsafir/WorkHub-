@@ -1,3 +1,4 @@
+
 import AddUser from "./AddUser";
 import Button from "./Button";
 import ChangePassword from "./ChangePassword";
@@ -15,6 +16,10 @@ import Title from "./Title";
 import UserAvatar from "./UserAvatar";
 import UserInfo from "./UserInfo";
 
+/**
+ * Barrel file exporting all common components.
+ * This file centralizes imports for easier and cleaner usage elsewhere.
+ */
 export {
   AddUser,
   Button,

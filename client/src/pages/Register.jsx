@@ -7,10 +7,17 @@ import { useRegisterMutation } from "../redux/slices/api/authApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
 import { useEffect, useState } from "react";
 
+/**
+ * Register component renders a user registration form.
+ * Supports standard user and administrator registration with confirmation modal.
+ * Validates inputs, handles API registration, sets credentials, and redirects on success.
+ */
 const Register = () => {
   const { user } = useSelector((state) => state.auth);
   const [showAdminConfirm, setShowAdminConfirm] = useState(false);
   const [formData, setFormData] = useState(null);
+
+  // Setup react-hook-form with validation and watch for isAdmin checkbox
   const {
     register,
     handleSubmit,
@@ -23,6 +30,11 @@ const Register = () => {
   const dispatch = useDispatch();
   const [registerUser, { isLoading }] = useRegisterMutation();
 
+  /**
+   * Handles form submission.
+   * Shows admin confirmation modal if registering as admin, otherwise submits registration.
+   * @param {Object} data - Form data from user input
+   */
   const handleRegister = async (data) => {
     if (data.isAdmin) {
       setFormData(data);
@@ -32,6 +44,12 @@ const Register = () => {
     await submitRegistration(data);
   };
 
+  /**
+   * Submits registration data to API.
+   * On success, stores credentials and navigates to home.
+   * Shows error toast on failure.
+   * @param {Object} data - User registration data
+   */
   const submitRegistration = async (data) => {
     try {
       const res = await registerUser(data).unwrap();
@@ -42,8 +60,9 @@ const Register = () => {
     }
   };
 
+  // Redirect authenticated users to dashboard
   useEffect(() => {
-    user && navigate("/dashboard");
+    if (user) navigate("/dashboard");
   }, [user]);
 
   return (
@@ -202,4 +221,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

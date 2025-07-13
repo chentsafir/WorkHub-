@@ -8,10 +8,18 @@ import { useUpdateUserMutation } from "../redux/slices/api/userApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
 import { Button, Loading, ModalWrapper, Textbox } from "./";
 
+/**
+ * AddUser component
+ * Modal form to add a new user or update an existing user.
+ */
 const AddUser = ({ open, setOpen, userData }) => {
+  // Default form values: if editing, use existing userData
   let defaultValues = userData ?? {};
+
+  // Get current logged-in user from Redux store
   const { user } = useSelector((state) => state.auth);
 
+  // Initialize react-hook-form with default values
   const {
     register,
     handleSubmit,
@@ -20,24 +28,34 @@ const AddUser = ({ open, setOpen, userData }) => {
 
   const dispatch = useDispatch();
 
+  // Define mutations for adding and updating user
   const [addNewUser, { isLoading }] = useRegisterMutation();
   const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
 
+  /**
+   * handleOnSubmit
+   * Handles form submission: update user if editing, or add new user.
+   * Shows success or error toasts.
+   */
   const handleOnSubmit = async (data) => {
     try {
       if (userData) {
+        // Update existing user
         const res = await updateUser(data).unwrap();
         toast.success(res?.message);
+
+        // If updated user is the current user, update credentials in store
         if (userData?._id === user?._id) {
           dispatch(setCredentials({ ...res?.user }));
         }
       } else {
+        // Add new user and show generated credentials
         const res = await addNewUser({
           ...data,
           isAdmin: false,
         }).unwrap();
-        
-        // Show custom toast with credentials
+
+        // Custom toast showing new user email and password
         toast.custom((t) => (
           <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="flex justify-between items-start">
@@ -60,10 +78,11 @@ const AddUser = ({ open, setOpen, userData }) => {
             </div>
           </div>
         ), {
-          duration: Infinity, // Toast will stay until manually closed
+          duration: Infinity, // Toast stays until manually closed
         });
       }
 
+      // Close modal after short delay
       setTimeout(() => {
         setOpen(false);
       }, 1500);
@@ -84,6 +103,7 @@ const AddUser = ({ open, setOpen, userData }) => {
             {userData ? "UPDATE PROFILE" : "ADD NEW USER"}
           </Dialog.Title>
           <div className='mt-2 flex flex-col gap-6'>
+            { /* Full Name input */ }
             <Textbox
               placeholder='Full name'
               type='text'
@@ -95,6 +115,7 @@ const AddUser = ({ open, setOpen, userData }) => {
               })}
               error={errors.name ? errors.name.message : ""}
             />
+            { /* Title input */ }
             <Textbox
               placeholder='Title'
               type='text'
@@ -106,6 +127,7 @@ const AddUser = ({ open, setOpen, userData }) => {
               })}
               error={errors.title ? errors.title.message : ""}
             />
+            { /* Email input */ }
             <Textbox
               placeholder='Email Address'
               type='email'
@@ -117,7 +139,7 @@ const AddUser = ({ open, setOpen, userData }) => {
               })}
               error={errors.email ? errors.email.message : ""}
             />
-
+            { /* Role input */ }
             <Textbox
               placeholder='Role'
               type='text'
@@ -131,6 +153,7 @@ const AddUser = ({ open, setOpen, userData }) => {
             />
           </div>
 
+          { /* Show loading spinner or action buttons */ }
           {isLoading || isUpdating ? (
             <div className='py-5'>
               <Loading />
@@ -142,7 +165,6 @@ const AddUser = ({ open, setOpen, userData }) => {
                 className='bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto'
                 label='Submit'
               />
-
               <Button
                 type='button'
                 className='bg-white px-5 text-sm font-semibold text-gray-900 sm:w-auto'
